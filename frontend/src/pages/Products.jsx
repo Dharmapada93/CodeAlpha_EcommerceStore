@@ -2,35 +2,59 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import api from "../services/api";
 
-function Products({ onViewDetails }) {
-    const [products, setProducts] = useState([]);
+function Products({ 
+    onViewDetails, 
+    selectedCategory: propSelectedCategory, 
+    setSelectedCategory: propSetSelectedCategory,
+    products: propProducts,
+    loading: propLoading,
+    error: propError
+}) {
+    const [internalProducts, setInternalProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [internalLoading, setInternalLoading] = useState(true);
+    const [internalError, setInternalError] = useState("");
 
     // Search, filter, and sort states
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("All");
+    const [internalSelectedCategory, setInternalSelectedCategory] = useState("All");
     const [sortBy, setSortBy] = useState("newest");
 
+    // Resolve resolved values from props or local state
+    const products = propProducts !== undefined ? propProducts : internalProducts;
+    const loading = propLoading !== undefined ? propLoading : internalLoading;
+    const error = propError !== undefined ? propError : internalError;
+
+    const selectedCategory = propSelectedCategory !== undefined ? propSelectedCategory : internalSelectedCategory;
+    const setSelectedCategory = propSetSelectedCategory !== undefined ? propSetSelectedCategory : setInternalSelectedCategory;
+
+    // Generate unique categories dynamically from products
+    const categories = React.useMemo(() => {
+        if (!products || products.length === 0) return ["All"];
+        const uniqueCategories = [...new Set(products.map((p) => p.category))].filter(Boolean);
+        return ["All", ...uniqueCategories];
+    }, [products]);
+
     useEffect(() => {
+        // Skip fetching if products are provided as prop
+        if (propProducts !== undefined) return;
+
         const fetchProducts = async () => {
             try {
                 const response = await api.get("/products");
-                setProducts(response.data.products);
-                setFilteredProducts(response.data.products);
+                setInternalProducts(response.data.products);
             } catch (error) {
-                setError(
+                setInternalError(
                     error.response?.data?.message ||
                         "Unable to load products"
                 );
             } finally {
-                setLoading(false);
+                setInternalLoading(false);
             }
         };
 
         fetchProducts();
-    }, []);
+    }, [propProducts]);
 
     // Perform filter and sort operations whenever filters or original products change
     useEffect(() => {
@@ -90,11 +114,11 @@ function Products({ onViewDetails }) {
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
-                            <option value="All">All Categories</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Home">Home</option>
-                            <option value="Accessories">Accessories</option>
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat}>
+                                    {cat === "All" ? "All Categories" : cat}
+                                </option>
+                            ))}
                         </select>
                     </div>
 

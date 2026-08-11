@@ -31,6 +31,7 @@ export const CartProvider = ({ children }) => {
                         name: product.name,
                         image: product.image,
                         price: product.price,
+                        category: product.category,
                         stock: product.stock,
                         quantity: quantity > product.stock ? product.stock : quantity,
                     },

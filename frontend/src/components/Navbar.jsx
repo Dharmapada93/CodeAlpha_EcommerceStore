@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
@@ -6,16 +7,34 @@ function Navbar({ onOpenLogin, onOpenRegister }) {
     const { user, logout } = useAuth();
     const { getTotalQuantity } = useCart();
     const [menuOpen, setMenuOpen] = useState(false);
+    
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const handleScrollTo = (e, sectionId) => {
+    const handleNavClick = (e, path, sectionId) => {
         e.preventDefault();
         setMenuOpen(false);
-        if (sectionId === "top") {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+
+        if (location.pathname === path) {
+            if (sectionId === "top") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            }
         } else {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
+            navigate(path);
+            if (sectionId && sectionId !== "top") {
+                setTimeout(() => {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        element.scrollIntoView({ behavior: "smooth" });
+                    }
+                }, 100);
+            } else {
+                window.scrollTo({ top: 0, behavior: "auto" });
             }
         }
     };
@@ -23,6 +42,7 @@ function Navbar({ onOpenLogin, onOpenRegister }) {
     const handleLogout = () => {
         logout();
         setMenuOpen(false);
+        navigate("/");
     };
 
     const toggleMenu = () => {
@@ -32,9 +52,9 @@ function Navbar({ onOpenLogin, onOpenRegister }) {
     return (
         <header className="navbar">
             <div className="navbar-container">
-                <a href="#top" className="logo" onClick={(e) => handleScrollTo(e, "top")}>
+                <Link to="/" className="logo" onClick={(e) => handleNavClick(e, "/", "top")}>
                     Shop<span>Sphere</span>
-                </a>
+                </Link>
 
                 {/* Hamburger Toggle */}
                 <button className={`menu-toggle ${menuOpen ? 'open' : ''}`} onClick={toggleMenu} aria-label="Toggle Menu">
@@ -44,20 +64,20 @@ function Navbar({ onOpenLogin, onOpenRegister }) {
                 </button>
 
                 <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-                    <a href="#top" onClick={(e) => handleScrollTo(e, "top")}>Home</a>
-                    <a href="#products" onClick={(e) => handleScrollTo(e, "products")}>Products</a>
+                    <Link to="/" onClick={(e) => handleNavClick(e, "/", "top")}>Home</Link>
+                    <Link to="/products" onClick={(e) => handleNavClick(e, "/products", "top")}>Products</Link>
 
                     {user && (
-                        <a href="#orders" onClick={(e) => handleScrollTo(e, "orders")}>My Orders</a>
+                        <Link to="/orders" onClick={(e) => handleNavClick(e, "/orders", "top")}>My Orders</Link>
                     )}
 
                     {user?.role === "admin" && (
-                        <a href="#admin" onClick={(e) => handleScrollTo(e, "admin")}>Admin</a>
+                        <Link to="/" onClick={(e) => handleNavClick(e, "/", "admin")}>Admin</Link>
                     )}
 
-                    <a href="#cart" className="cart-link" onClick={(e) => handleScrollTo(e, "cart")}>
+                    <Link to="/cart" className="cart-link" onClick={(e) => handleNavClick(e, "/cart", "top")}>
                         Cart <span className="cart-count">({getTotalQuantity()})</span>
-                    </a>
+                    </Link>
 
                     {user ? (
                         <button
@@ -68,19 +88,21 @@ function Navbar({ onOpenLogin, onOpenRegister }) {
                         </button>
                     ) : (
                         <div className="auth-links" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                            <button 
-                                onClick={() => { setMenuOpen(false); onOpenLogin(); }} 
-                                style={{ background: "none", border: "none", color: "#171717", cursor: "pointer", fontWeight: 500, fontSize: "14px" }}
+                            <Link 
+                                to="/login"
+                                onClick={(e) => { setMenuOpen(false); if (onOpenLogin) { e.preventDefault(); onOpenLogin(); } }} 
+                                style={{ color: "#171717", fontWeight: 500, fontSize: "14px" }}
                             >
                                 Login
-                            </button>
-                            <button
-                                onClick={() => { setMenuOpen(false); onOpenRegister(); }}
+                            </Link>
+                            <Link
+                                to="/signup"
+                                onClick={(e) => { setMenuOpen(false); if (onOpenRegister) { e.preventDefault(); onOpenRegister(); } }}
                                 className="signup-btn"
-                                style={{ padding: "8px 16px", cursor: "pointer" }}
+                                style={{ padding: "8px 16px", cursor: "pointer", display: "inline-block", textAlign: "center" }}
                             >
                                 Sign Up
-                            </button>
+                            </Link>
                         </div>
                     )}
                 </nav>

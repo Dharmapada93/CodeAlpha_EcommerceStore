@@ -1595,3 +1595,520 @@ html {
     to { opacity: 1; }
 }
 
+/* ==========================================================================
+   HOMEPAGE EXPANSION SECTIONS
+   ========================================================================== */
+
+/* Spacing and Common Containers */
+.home-section {
+    padding: 80px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .home-section {
+        padding: 50px 20px;
+    }
+}
+
+.section-header {
+    margin-bottom: 45px;
+}
+
+.section-header h2 {
+    margin-top: 5px;
+    font-size: clamp(32px, 4vw, 48px);
+    letter-spacing: -1.5px;
+    font-weight: 700;
+}
+
+.section-header p {
+    color: #716d68;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.view-all-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+/* 1. Benefits Section */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.benefit-card {
+    background: white;
+    border: 1px solid #e9e5df;
+    padding: 35px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.benefit-number {
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a857e;
+    letter-spacing: 1px;
+}
+
+.benefit-icon {
+    font-size: 24px;
+    color: #171717;
+}
+
+.benefit-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.benefit-desc {
+    font-size: 14px;
+    color: #65615c;
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 2. Category Section */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.category-card {
+    background: white;
+    border: 1px solid #e9e5df;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.category-icon-wrapper {
+    font-size: 32px;
+    color: #171717;
+}
+
+.category-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.category-desc {
+    font-size: 14px;
+    color: #65615c;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.category-explore {
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #171717;
+    margin-top: 10px;
+}
+
+.category-explore span {
+    transition: transform 0.2s ease;
+}
+
+.category-card:hover .category-explore span {
+    transform: translateX(4px);
+}
+
+@media (max-width: 1024px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 3. Promo Banner */
+.promo-banner {
+    display: flex;
+    background: white;
+    border: 1px solid #e9e5df;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.promo-left {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.promo-left h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+}
+
+.promo-left p {
+    font-size: 16px;
+    color: #65615c;
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 10px;
+}
+
+.promo-right {
+    flex: 1.1;
+    background: #f1efeb;
+    display: flex;
+}
+
+.promo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 380px;
+}
+
+@media (max-width: 768px) {
+    .promo-banner {
+        flex-direction: column;
+    }
+    .promo-left {
+        padding: 40px 30px;
+    }
+    .promo-img {
+        min-height: 280px;
+    }
+}
+
+/* 4. Why ShopSphere Section */
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.why-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s ease;
+}
+
+.why-col:hover {
+    transform: translateY(-2px);
+}
+
+.why-icon-wrapper {
+    font-size: 24px;
+    color: #171717;
+}
+
+.why-col h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.why-col p {
+    font-size: 14px;
+    color: #65615c;
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 5. Testimonials Section */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.testimonial-card {
+    background: white;
+    border: 1px solid #e9e5df;
+    padding: 35px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.stars {
+    color: #171717;
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+.testimonial-quote {
+    font-size: 15px;
+    color: #171717;
+    line-height: 1.6;
+    font-style: italic;
+    flex-grow: 1;
+}
+
+.testimonial-author {
+    margin-top: 10px;
+}
+
+.author-name {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
+
+.author-status {
+    font-size: 11px;
+    color: #8a857e;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 6. Newsletter Section */
+.newsletter-card {
+    background: white;
+    border: 1px solid #e9e5df;
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.newsletter-card h2 {
+    font-size: clamp(28px, 3vw, 38px);
+    letter-spacing: -1px;
+}
+
+.newsletter-card p {
+    font-size: 15px;
+    color: #65615c;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.newsletter-form {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    gap: 10px;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 14px;
+    border: 1px solid #d9d4cd;
+    border-radius: 30px;
+    outline: none;
+}
+
+.newsletter-input:focus {
+    border-color: #171717;
+}
+
+.newsletter-error {
+    color: #c62828;
+    font-size: 12px;
+    margin-top: -15px;
+    font-weight: 500;
+}
+
+.newsletter-success {
+    font-size: 16px;
+    color: #2e7d32;
+    font-weight: 600;
+    padding: 10px 0;
+}
+
+@media (max-width: 500px) {
+    .newsletter-card {
+        padding: 40px 20px;
+    }
+    .newsletter-form {
+        flex-direction: column;
+    }
+}
+
+/* 7. Final CTA Section */
+.final-cta-section {
+    background: #171717;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.final-cta-section h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -1.5px;
+    font-weight: 700;
+    color: white;
+}
+
+.final-cta-section p {
+    font-size: 16px;
+    color: #a8a39d;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.final-cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.final-cta-buttons .secondary-btn {
+    border-color: #4a453f;
+    color: white;
+}
+
+.final-cta-buttons .secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 480px) {
+    .final-cta-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+/* Skeleton Loading Loader */
+.skeleton-card {
+    border: 1px solid #e9e5df;
+    background: white;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+}
+
+.skeleton-image {
+    aspect-ratio: 1 / 1;
+    background: #f1efeb;
+    animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-line {
+    height: 14px;
+    background: #f1efeb;
+    border-radius: 4px;
+    animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line.small {
+    width: 30%;
+}
+
+.skeleton-line.medium {
+    width: 70%;
+}
+
+.skeleton-line.large {
+    width: 100%;
+}
+
+.skeleton-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.skeleton-btn {
+    height: 35px;
+    flex: 1;
+    background: #f1efeb;
+    border-radius: 20px;
+    animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes skeleton-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+

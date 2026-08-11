@@ -1,53 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Products from "./Products";
-import Cart from "./Cart";
-import Checkout from "./Checkout";
-import Orders from "./Orders";
 import AdminDashboard from "./AdminDashboard";
 import Footer from "../components/Footer";
-
-// Modals
-import ProductDetails from "./ProductDetails";
-import Login from "./Login";
-import Register from "./Register";
 
 // Context
 import { useAuth } from "../context/AuthContext";
 
+// API Services
+import api from "../services/api";
+
+// Landing Page Components
+import BenefitsSection from "../components/BenefitsSection";
+import CategorySection from "../components/CategorySection";
+import FeaturedProducts from "../components/FeaturedProducts";
+import PromoBanner from "../components/PromoBanner";
+import NewArrivals from "../components/NewArrivals";
+import WhyShopSection from "../components/WhyShopSection";
+import BestSellers from "../components/BestSellers";
+import Testimonials from "../components/Testimonials";
+import Newsletter from "../components/Newsletter";
+import FinalCTA from "../components/FinalCTA";
+
 function Home() {
     const { user } = useAuth();
+    const navigate = useNavigate();
     
-    // Modal states
-    const [activeModal, setActiveModal] = useState(null); // 'login' | 'register' | 'details' | null
-    const [selectedProductId, setSelectedProductId] = useState(null);
-    
-    // Refresh trigger to sync state updates (orders checkout, admin modifications)
+    // Refresh trigger to sync state updates (admin modifications)
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+    // Dynamic products list for landing page sections
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                setError("");
+                const response = await api.get("/products");
+                setProducts(response.data.products || []);
+            } catch (err) {
+                setError(
+                    err.response?.data?.message ||
+                        "Unable to load products. Please try again."
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, [refreshTrigger]);
+
     const handleOpenLogin = () => {
-        setActiveModal("login");
+        navigate("/login");
     };
 
     const handleOpenRegister = () => {
-        setActiveModal("register");
+        navigate("/signup");
     };
 
     const handleOpenDetails = (productId) => {
-        setSelectedProductId(productId);
-        setActiveModal("details");
-    };
-
-    const handleCloseModal = () => {
-        setActiveModal(null);
-        setSelectedProductId(null);
+        navigate(`/product/${productId}`);
     };
 
     const handleProductChanged = () => {
-        setRefreshTrigger((prev) => prev + 1);
-    };
-
-    const handleOrderPlaced = () => {
         setRefreshTrigger((prev) => prev + 1);
     };
 
@@ -86,19 +105,19 @@ function Home() {
                         </p>
 
                         <div className="hero-actions">
-                            <a
-                                href="#products"
-                                onClick={(e) => handleScrollToSection(e, "products")}
+                            <button
+                                onClick={() => navigate("/products")}
                                 className="primary-btn"
-                                style={{ textDecoration: "none" }}
+                                style={{ border: "none", cursor: "pointer" }}
                             >
                                 Explore Products
-                            </a>
+                            </button>
 
                             {!user && (
                                 <button
                                     onClick={handleOpenRegister}
                                     className="secondary-btn"
+                                    style={{ cursor: "pointer" }}
                                 >
                                     Create Account
                                 </button>
@@ -107,35 +126,57 @@ function Home() {
                     </div>
                 </section>
 
-                {/* Products Catalog Grid Section */}
-                <div className="content-container">
-                    <Products onViewDetails={handleOpenDetails} key={`products-grid-${refreshTrigger}`} />
-                </div>
+                <BenefitsSection />
 
-                {/* Shopping Cart Section */}
-                <div className="content-container">
-                    <Cart />
-                </div>
+                <CategorySection 
+                    products={products}
+                    onSelectCategory={(category) => {
+                        navigate("/products", { state: { initialCategory: category } });
+                    }}
+                />
 
-                {/* Checkout Section */}
-                <div className="content-container">
-                    <Checkout 
-                        onOpenLogin={handleOpenLogin} 
-                        onOrderPlaced={handleOrderPlaced} 
-                    />
-                </div>
+                <FeaturedProducts 
+                    products={products}
+                    loading={loading}
+                    error={error}
+                    onViewDetails={handleOpenDetails}
+                    onClearFilters={() => {}}
+                />
 
-                {/* Orders History Section */}
-                <div className="content-container">
-                    <Orders 
-                        refreshTrigger={refreshTrigger}
-                        onOpenLogin={handleOpenLogin}
-                    />
-                </div>
+                <PromoBanner 
+                    onExplore={() => navigate("/products")}
+                />
+
+                <NewArrivals 
+                    products={products}
+                    loading={loading}
+                    error={error}
+                    onViewDetails={handleOpenDetails}
+                    onClearFilters={() => {}}
+                />
+
+                <WhyShopSection />
+
+                <BestSellers 
+                    products={products}
+                    loading={loading}
+                    error={error}
+                    onViewDetails={handleOpenDetails}
+                    onClearFilters={() => {}}
+                />
+
+                <Testimonials />
+
+                <Newsletter />
+
+                <FinalCTA 
+                    onExplore={() => navigate("/products")}
+                    onOpenRegister={handleOpenRegister}
+                />
 
                 {/* Conditional Admin Dashboard Section */}
                 {user?.role === "admin" && (
-                    <div className="content-container">
+                    <div id="admin" className="content-container">
                         <AdminDashboard 
                             refreshTrigger={refreshTrigger}
                             onProductChanged={handleProductChanged}
@@ -145,28 +186,6 @@ function Home() {
             </main>
 
             <Footer />
-
-            {/* Modals Mounting */}
-            {activeModal === "login" && (
-                <Login 
-                    onClose={handleCloseModal} 
-                    onSwitchToRegister={handleOpenRegister} 
-                />
-            )}
-
-            {activeModal === "register" && (
-                <Register 
-                    onClose={handleCloseModal} 
-                    onSwitchToLogin={handleOpenLogin} 
-                />
-            )}
-
-            {activeModal === "details" && selectedProductId && (
-                <ProductDetails 
-                    productId={selectedProductId} 
-                    onClose={handleCloseModal} 
-                />
-            )}
         </div>
     );
 }

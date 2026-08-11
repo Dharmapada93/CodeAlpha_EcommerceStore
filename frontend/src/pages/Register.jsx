@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Register({ onClose, onSwitchToLogin }) {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -10,6 +14,8 @@ function Register({ onClose, onSwitchToLogin }) {
     const [errors, setErrors] = useState({});
     const [submitError, setSubmitError] = useState("");
     const [success, setSuccess] = useState(false);
+
+    const isModal = !!onClose;
 
     const validateForm = () => {
         const newErrors = {};
@@ -52,7 +58,11 @@ function Register({ onClose, onSwitchToLogin }) {
 
             setSuccess(true);
             setTimeout(() => {
-                onSwitchToLogin();
+                if (onSwitchToLogin) {
+                    onSwitchToLogin();
+                } else {
+                    navigate("/login");
+                }
             }, 2000);
         } catch (error) {
             setSubmitError(error.response?.data?.message || "Registration failed. Try again.");
@@ -61,11 +71,18 @@ function Register({ onClose, onSwitchToLogin }) {
         }
     };
 
-    return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal-content-wrapper auth-modal" onClick={(e) => e.stopPropagation()}>
-                <button className="modal-close-btn" onClick={onClose}>&times;</button>
-                
+    const handleSwitchToLogin = (e) => {
+        if (onSwitchToLogin) {
+            e.preventDefault();
+            onSwitchToLogin();
+        } else {
+            navigate("/login");
+        }
+    };
+
+    const renderForm = () => {
+        return (
+            <>
                 <h2 style={{ fontSize: "24px", fontWeight: "600", marginBottom: "10px", textAlign: "center" }}>
                     Create Account
                 </h2>
@@ -121,11 +138,11 @@ function Register({ onClose, onSwitchToLogin }) {
                         </div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                            <label htmlFor="reg-password" style={{ fontSize: "12px", fontWeight: 600 }}>Password (min 6 chars)</label>
+                            <label htmlFor="reg-password" style={{ fontSize: "12px", fontWeight: 600 }}>Password</label>
                             <input
                                 id="reg-password"
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="•••••••• (Min. 6 chars)"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 style={{ padding: "10px 12px", border: "1px solid #e9e5df" }}
@@ -152,7 +169,7 @@ function Register({ onClose, onSwitchToLogin }) {
                             type="submit" 
                             className="primary-btn" 
                             disabled={loading}
-                            style={{ padding: "12px", marginTop: "10px" }}
+                            style={{ padding: "12px", marginTop: "10px", border: "none", cursor: "pointer", fontWeight: "600" }}
                         >
                             {loading ? "Creating Account..." : "Create Account"}
                         </button>
@@ -162,13 +179,36 @@ function Register({ onClose, onSwitchToLogin }) {
                 <p style={{ marginTop: "25px", fontSize: "14px", textAlign: "center", color: "#716d68" }}>
                     Already have an account?{" "}
                     <button 
-                        onClick={onSwitchToLogin}
+                        onClick={handleSwitchToLogin}
                         style={{ background: "none", border: "none", color: "#171717", fontWeight: 600, cursor: "pointer", textDecoration: "underline", padding: 0 }}
                     >
                         Sign In here
                     </button>
                 </p>
+            </>
+        );
+    };
+
+    if (isModal) {
+        return (
+            <div className="modal-backdrop" onClick={onClose}>
+                <div className="modal-content-wrapper auth-modal" onClick={(e) => e.stopPropagation()}>
+                    <button className="modal-close-btn" onClick={onClose}>&times;</button>
+                    {renderForm()}
+                </div>
             </div>
+        );
+    }
+
+    return (
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            <Navbar />
+            <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 20px" }}>
+                <div className="modal-content-wrapper auth-modal" style={{ animation: "none", boxShadow: "0 10px 30px rgba(0,0,0,0.05)", position: "static", border: "1px solid #e9e5df" }}>
+                    {renderForm()}
+                </div>
+            </main>
+            <Footer />
         </div>
     );
 }

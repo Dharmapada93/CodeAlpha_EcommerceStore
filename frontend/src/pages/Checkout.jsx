@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
 
 function Checkout({ onOpenLogin, onOrderPlaced }) {
+    const navigate = useNavigate();
     const { cartItems, getSubtotal, getTotalQuantity, clearCart } = useCart();
     const { user } = useAuth();
 
@@ -89,11 +91,7 @@ function Checkout({ onOpenLogin, onOrderPlaced }) {
 
             setTimeout(() => {
                 setSuccessMessage("");
-                // Scroll to orders
-                const ordersSec = document.getElementById("orders");
-                if (ordersSec) {
-                    ordersSec.scrollIntoView({ behavior: "smooth" });
-                }
+                navigate("/orders");
             }, 2000);
         } catch (error) {
             setSubmitError(
