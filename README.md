@@ -1,41 +1,42 @@
-# CodeAlpha E-commerce Store
+# ShopSphere
 
-## Overview
-A fully-featured full-stack MERN e-commerce application developed as part of the CodeAlpha Full Stack Development Internship. This application implements a complete online shopping flow from registration and catalog discovery to cart management, secure checkout, order processing, and administrative inventory/order dashboards.
+A modern full-stack e-commerce web application designed to provide a simple, secure and seamless online shopping experience.
 
 ## Features
-* **User Registration & Login**: Validated credential processing with password hashing (bcryptjs).
-* **JWT Authentication**: Secure API endpoints guarded by bearer token verification.
-* **Product Catalog**: Live listing of catalog inventory with client-side text searching, category filters, and sorting controls.
-* **Product Details**: Product spec pages with real-time stock-bounded quantity selectors and Cart addition triggers.
-* **Shopping Cart**: Fully functional context state synced with `localStorage` supporting item additions, adjustments, removals, and subtotal metrics.
-* **Secure Checkout**: Shipping forms with client-side validators and stock check limits.
-* **Order Processing**: Auto-reduces inventory stocks upon order submissions and logs entries into database collections.
-* **Order History**: User dashboard tracking personal order histories, addresses, and process statuses.
-* **Admin Dashboard**: Panel accessible to administrator accounts to manage catalog items (Create, Read, Update, Delete) and process incoming orders (Update status flags).
-* **Responsive Styling**: Mobile-first premium layout adapting seamlessly across mobile, tablet, and desktop views.
 
----
+- User authentication
+- Product browsing
+- Product search
+- Category filtering
+- Product sorting
+- Product details
+- Shopping cart
+- Quantity management
+- Checkout
+- Order history
+- Responsive design
+- REST API integration
+- Database integration
 
 ## Tech Stack
 
-### Frontend
-* **React + Vite**: Responsive client framework.
-* **React Router v6**: Single-page application routing.
-* **Axios**: Network client with response interceptors for auto-logout handling on expired tokens.
-* **Vanilla CSS**: Curated premium aesthetic styling system.
+Frontend:
+- React.js
+- JavaScript
+- HTML
+- CSS
 
-### Backend
-* **Node.js & Express.js**: REST API server implementation.
-* **MongoDB + Mongoose**: Database models and relationship bindings.
-* **jsonwebtoken (JWT)**: Secure user session states.
-* **bcryptjs**: Password encryption.
+Backend:
+- Node.js
+- Express.js
 
----
+Database:
+- MongoDB
 
 ## Project Structure
+
 ```text
-CodeAlpha_EcommerceStore/
+ShopSphere/
 ├── backend/
 │   ├── config/             # DB connection settings
 │   ├── controllers/        # Handlers for auth, products, and orders
@@ -48,9 +49,9 @@ CodeAlpha_EcommerceStore/
 │   └── server.js           # Server entrypoint
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # Reusable blocks (Navbar, Footer, ProductCard, ProtectedRoute)
+│   │   ├── components/     # Reusable UI blocks (Navbar, Footer, ProductCard, BenefitsSection, etc.)
 │   │   ├── context/        # React context (AuthContext, CartContext)
-│   │   ├── pages/          # Storefront and admin views
+│   │   ├── pages/          # Storefront pages and admin views (Home, ProductsPage, CartPage, etc.)
 │   │   ├── services/       # Axios API client wrapper
 │   │   ├── App.jsx         # App router mapping
 │   │   ├── main.jsx        # App root setup
@@ -59,21 +60,19 @@ CodeAlpha_EcommerceStore/
 └── README.md
 ```
 
----
-
 ## Installation & Setup
 
 1. **Clone the repository**:
    ```bash
-   git clone <YOUR_REPOSITORY_URL>
-   cd CodeAlpha_EcommerceStore
+   git clone <REPOSITORY_URL>
+   cd ShopSphere
    ```
 
 2. **Configure Environment Variables**:
    Create a `.env` file in the `backend/` directory based on the `backend/.env.example` template:
    ```env
    PORT=5000
-   MONGO_URI=mongodb://127.0.0.1:27017/codealpha_ecommerce
+   MONGO_URI=mongodb://127.0.0.1:27017/shopsphere
    JWT_SECRET=your_secret_key_here
    ```
 
@@ -82,7 +81,7 @@ CodeAlpha_EcommerceStore/
    cd backend
    npm install
    
-   # Seed default admin user (email: admin@codealpha.com, password: Admin@123456)
+   # Seed default admin user (email: admin@shopsphere.com, password: Admin@123456)
    node createAdmin.js
    
    # Seed default catalog products
@@ -94,8 +93,6 @@ CodeAlpha_EcommerceStore/
    cd ../frontend
    npm install
    ```
-
----
 
 ## Running the Application
 
@@ -111,31 +108,4 @@ From the `frontend/` directory:
 ```bash
 npm run dev
 ```
-Vite will serve the app on `http://localhost:5173`. Open this URL in your web browser.
-
----
-
-## API Endpoints
-
-### Authentication
-* `POST /api/auth/register` - Create user account
-* `POST /api/auth/login` - Authenticate user & get token
-* `GET /api/auth/profile` - Get logged-in user profile (Protected)
-
-### Products
-* `GET /api/products` - Retrieve all products
-* `GET /api/products/:id` - Retrieve single product detail
-* `POST /api/products` - Add new product (Admin Only)
-* `PUT /api/products/:id` - Modify product catalog detail (Admin Only)
-* `DELETE /api/products/:id` - Remove product from catalog (Admin Only)
-
-### Orders
-* `POST /api/orders` - Place a new order (Protected)
-* `GET /api/orders/my-orders` - Retrieve personal order history (Protected)
-* `GET /api/orders` - List all customer orders (Admin Only)
-* `PUT /api/orders/:id/status` - Modify order shipping status (Admin Only)
-
----
-
-## Internship
-This project was developed for the **CodeAlpha Full Stack Development Internship** as part of **Task 1: E-commerce Store**.
+Vite will serve the app on `http://localhost:5173`.

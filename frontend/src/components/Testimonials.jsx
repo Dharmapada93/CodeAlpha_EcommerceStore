@@ -28,7 +28,7 @@ function Testimonials() {
                 <span className="section-label">WHAT OUR CUSTOMERS SAY</span>
                 <h2>Customer Reviews</h2>
                 <p style={{ maxWidth: "550px", margin: "8px auto 0" }}>
-                    Read verified feedback from our customer community. (Sample demo reviews for internship showcase)
+                    Read verified feedback from our customer community.
                 </p>
             </div>
 

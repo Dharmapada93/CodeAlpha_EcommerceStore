@@ -23,7 +23,7 @@ app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
     res.json({
-        message: "CodeAlpha E-commerce API is running",
+        message: "ShopSphere E-commerce API is running",
     });
 });
 
