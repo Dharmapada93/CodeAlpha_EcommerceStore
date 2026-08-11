@@ -1,4 +1,4 @@
-# CodeAlpha E-commerce Store
+#  E-commerce Store
 
 ## Overview
 A fully-featured full-stack MERN e-commerce application developed as part of the CodeAlpha Full Stack Development Internship. This application implements a complete online shopping flow from registration and catalog discovery to cart management, secure checkout, order processing, and administrative inventory/order dashboards.
@@ -136,6 +136,3 @@ Vite will serve the app on `http://localhost:5173`. Open this URL in your web br
 * `PUT /api/orders/:id/status` - Modify order shipping status (Admin Only)
 
 ---
-
-## Internship
-This project was developed for the **CodeAlpha Full Stack Development Internship** as part of **Task 1: E-commerce Store**.
