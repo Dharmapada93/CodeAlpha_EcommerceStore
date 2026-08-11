@@ -108,4 +108,26 @@ From the `frontend/` directory:
 ```bash
 npm run dev
 ```
-Vite will serve the app on `http://localhost:5173`.
+Vite will serve the app on `http://localhost:5173`. Open this URL in your web browser.
+
+---
+
+## API Endpoints
+
+### Authentication
+* `POST /api/auth/register` - Create user account
+* `POST /api/auth/login` - Authenticate user & get token
+* `GET /api/auth/profile` - Get logged-in user profile (Protected)
+
+### Products
+* `GET /api/products` - Retrieve all products
+* `GET /api/products/:id` - Retrieve single product detail
+* `POST /api/products` - Add new product (Admin Only)
+* `PUT /api/products/:id` - Modify product catalog detail (Admin Only)
+* `DELETE /api/products/:id` - Remove product from catalog (Admin Only)
+
+### Orders
+* `POST /api/orders` - Place a new order (Protected)
+* `GET /api/orders/my-orders` - Retrieve personal order history (Protected)
+* `GET /api/orders` - List all customer orders (Admin Only)
+* `PUT /api/orders/:id/status` - Modify order shipping status (Admin Only)
