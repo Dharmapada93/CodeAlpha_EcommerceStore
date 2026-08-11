@@ -31,7 +31,8 @@ function FinalCTA({ onExplore, onOpenRegister }) {
                 {!user && (
                     <button
                         onClick={onOpenRegister}
-                        className="secondary-btn"
+                        className="primary-btn"
+                        style={{ background: "white", color: "#171717" }}
                     >
                         Create Account
                     </button>
