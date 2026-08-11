@@ -43,7 +43,6 @@ function Footer() {
 
             <div className="footer-bottom">
                 <p>&copy; {new Date().getFullYear()} ShopSphere. All rights reserved.</p>
-                <p className="attribution">Developed for the CodeAlpha Full Stack Development Internship.</p>
             </div>
         </footer>
     );
